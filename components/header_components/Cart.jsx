@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
 import {
   AiOutlineMinus,
@@ -26,6 +26,20 @@ export default function Cart() {
     onRemove,
   } = useStateContext();
 
+  // Close cart when clicking outside of the cart container
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (cartRef.current && !cartRef.current.contains(event.target)) {
+        setShowCart(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [setShowCart]);
+
   async function handleCheckOut() {
     const stripe = await getStripe();
     // check this directory and the body (maybe ID is better)
@@ -46,8 +60,8 @@ export default function Cart() {
   }
 
   return (
-    <div className="cart-wrapper" ref={cartRef}>
-      <div className="cart-container">
+    <div className="cart-wrapper">
+      <div className="cart-container" ref={cartRef}>
         <button
           type="button"
           className="cart-heading"
