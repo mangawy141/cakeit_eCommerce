@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import SearchArea from "./SearchArea.jsx";
 import MobileMenu from "./MobileMenu.jsx";
 import Link from "next/link.js";
@@ -10,6 +11,7 @@ export default function Header() {
   const [showSearchArea, setShowSearchArea] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const { showCart, setShowCart, totalQuantities } = useStateContext();
+  const router = useRouter();
 
   function handleSearchArea() {
     setShowSearchArea((prev) => !prev);
@@ -53,23 +55,36 @@ export default function Header() {
               {/* <!-- menu start --> */}
               <nav className="main-menu">
                 <ul>
-                  <li className="current-list-item">
+                  <li
+                    className={
+                      router.pathname === "/" ? "current-list-item" : ""
+                    }
+                  >
                     <Link href="/">Home</Link>
                   </li>
-                  <li>
+                  <li
+                    className={
+                      router.pathname === "/about" ? "current-list-item" : ""
+                    }
+                  >
                     <Link href="/about">About</Link>
                   </li>
-                  <li>
+                  <li
+                    className={
+                      router.pathname === "/contact" ? "current-list-item" : ""
+                    }
+                  >
                     <Link href="/contact">Contact</Link>
                   </li>
-                  <li>
+                  <li
+                    className={
+                      router.pathname === "/shop" ? "current-list-item" : ""
+                    }
+                  >
                     <Link href="/shop">Shop</Link>
                   </li>
                   <li>
                     <div className="header-icons">
-                      {/* <a className="shopping-cart" href="cart.html">
-                        <i className="fas fa-shopping-cart"></i>
-                      </a> */}
                       <button
                         type="button"
                         className="cart-icon"
